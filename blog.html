@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog &amp; News | New Community Organization</title>
+<meta name="description" content="Updates and stories from New Community Organization's programs in women empowerment, youth empowerment, agriculture, and community development.">
+<link rel="icon" href="images/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="nav-brand">
+      <img src="images/logo-mark.png" alt="New Community Organization logo">
+      <span class="brand-text"><strong>New Community Org.</strong><span>Together We Move</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="blog.html">Blog / News</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="volunteer.html">Volunteer</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="donate.html" class="btn btn-primary">Donate</a>
+      <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <p class="breadcrumb"><a href="index.html">Home</a> / Blog &amp; News</p>
+    <h1>Stories from the field</h1>
+    <p>Updates on our training sessions, agricultural activities, and the women and youth building their futures with us.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="grid grid-3" id="blog-list"></div>
+  </div>
+</section>
+
+<section style="background:var(--paper-dim)">
+  <div class="container">
+    <div class="cta-band" style="background:linear-gradient(120deg, var(--green-700), var(--green-900))">
+      <h2>Never miss an update</h2>
+      <p>Subscribe to hear about new posts, upcoming events, and program milestones.</p>
+      <form class="newsletter-inline" id="newsletter-form" style="max-width:420px; margin:20px auto 0;">
+        <input type="email" placeholder="Your email" required aria-label="Email for newsletter">
+        <button class="btn btn-secondary" type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><img src="images/logo-mark.png" alt="New Community Organization"><strong>New Community Organization</strong></div>
+        <p class="muted" style="color:rgba(255,255,255,.7)">Empowering women, youth, and farming communities in Lilongwe District, Malawi. Together We Move.</p>
+        <div class="social-row"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="Instagram">ig</a></div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul><li><a href="about.html">About Us</a></li><li><a href="blog.html">Blog / News</a></li><li><a href="events.html">Events</a></li><li><a href="gallery.html">Gallery</a></li></ul>
+      </div>
+      <div>
+        <h4>Get Involved</h4>
+        <ul><li><a href="volunteer.html">Volunteer</a></li><li><a href="donate.html">Donate</a></li><li><a href="contact.html">Contact Us</a></li><li><a href="admin.html">Admin Panel</a></li></ul>
+      </div>
+      <div>
+        <h4>Stay Updated</h4>
+        <p class="muted" style="color:rgba(255,255,255,.7); font-size:.88rem;">Get news on our programs and events.</p>
+        <form class="newsletter-inline"><input type="email" placeholder="Your email" aria-label="Email" disabled></form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year></span> New Community Organization. All rights reserved.</span>
+      <span>Patsankhondo, P.O. Box 16, Mitundu – Lilongwe, Malawi</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
