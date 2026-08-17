@@ -106,7 +106,7 @@ function renderAdminMessages(){
     <tr>
       <td>${new Date(m.date).toLocaleDateString("en-GB")}</td>
       <td><strong>${escapeHTML(m.name)}</strong><br><span class="muted">${escapeHTML(m.email)}</span></td>
-      <td>${escapeHTML(m.type === "donation-intent" ? ("Donation intent — $"+escapeHTML(m.amount)+" ("+escapeHTML(m.method)+")") : (m.subject||"") + (m.message ? ": "+escapeHTML(m.message) : ""))}</td>
+      <td>${escapeHTML(m.type === "donation-intent" ? ("Donation intent — MWK "+escapeHTML(m.amount)+" ("+escapeHTML(m.method)+")") : (m.subject||"") + (m.message ? ": "+escapeHTML(m.message) : ""))}</td>
       <td><button class="del-btn" data-id="${m.id}" data-type="messages">Delete</button></td>
     </tr>`).join("") || `<tr><td colspan="4" class="muted">No messages yet.</td></tr>`;
 }
