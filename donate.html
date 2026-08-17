@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate &amp; Support | New Community Organization</title>
+<meta name="description" content="Support New Community Organization's work with women, youth, and farming communities through a donation, grant, or in-kind support.">
+<link rel="icon" href="images/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="nav-brand">
+      <img src="images/logo-mark.png" alt="New Community Organization logo">
+      <span class="brand-text"><strong>New Community Org.</strong><span>Together We Move</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="blog.html">Blog / News</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="volunteer.html">Volunteer</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="donate.html" class="btn btn-primary">Donate</a>
+      <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <p class="breadcrumb"><a href="index.html">Home</a> / Donate</p>
+    <h1>Support the work</h1>
+    <p>Your donation, grant, or in-kind support helps women and youth build sustainable livelihoods and resilient communities.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow">Where it goes</p>
+        <h2>Every contribution counts</h2>
+        <p class="muted">We welcome financial support, grants, donations, equipment, technical assistance, partnerships, and volunteers to support our women and youth empowerment programs.</p>
+        <div class="grid" style="margin-top:24px;">
+          <div class="goal-item"><span class="num">&#127811;</span><p class="mt-0"><strong>Women's programs</strong> — training materials, savings-group starter funds, and mentorship.</p></div>
+          <div class="goal-item"><span class="num">&#127806;</span><p class="mt-0"><strong>Agriculture</strong> — seed, tools, and demonstration-plot upkeep for climate-smart farming.</p></div>
+          <div class="goal-item"><span class="num">&#128172;</span><p class="mt-0"><strong>Youth programs</strong> — leadership training and mentorship resources.</p></div>
+          <div class="goal-item"><span class="num">&#127968;</span><p class="mt-0"><strong>Community outreach</strong> — event logistics and community mobilization.</p></div>
+        </div>
+        <p class="badge-note" style="margin-top:24px;">Prefer to give equipment, technical assistance, or a partnership instead of cash? Use the form and select "Other support" — our team will follow up to arrange details.</p>
+      </div>
+
+      <div class="form-card">
+        <form id="donate-form">
+          <div class="form-msg" id="donate-msg"></div>
+          <label style="font-weight:700; font-size:.85rem; color:var(--green-900); display:block; margin-bottom:8px;">Choose an amount</label>
+          <div class="donate-options">
+            <button type="button" class="donate-amount" data-amount="10">$10</button>
+            <button type="button" class="donate-amount active" data-amount="25">$25</button>
+            <button type="button" class="donate-amount" data-amount="50">$50</button>
+            <button type="button" class="donate-amount" data-amount="100">$100</button>
+          </div>
+          <div class="field">
+            <label for="donate-custom">Amount (USD)</label>
+            <input type="number" id="donate-custom" name="amount" min="1" value="25" required>
+          </div>
+          <label style="font-weight:700; font-size:.85rem; color:var(--green-900); display:block; margin-bottom:8px;">Support type</label>
+          <div class="donate-method">
+            <label><input type="radio" name="method" value="One-time" checked><span>One-time gift</span></label>
+            <label><input type="radio" name="method" value="Monthly"><span>Monthly giving</span></label>
+            <label><input type="radio" name="method" value="Other support"><span>Other support</span></label>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="d-name">Full name</label>
+              <input type="text" id="d-name" name="name" required>
+            </div>
+            <div class="field">
+              <label for="d-email">Email address</label>
+              <input type="email" id="d-email" name="email" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Continue to Support Us</button>
+          <p class="muted" style="font-size:.78rem; margin-top:12px;">This form registers your intent to give — our team will contact you with mobile money, bank transfer, or in-kind arrangement details.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--paper-dim)">
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Thank You</p>
+      <h2>Our supporters</h2>
+    </div>
+    <div class="donor-wall" id="donor-wall"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><img src="images/logo-mark.png" alt="New Community Organization"><strong>New Community Organization</strong></div>
+        <p class="muted" style="color:rgba(255,255,255,.7)">Empowering women, youth, and farming communities in Lilongwe District, Malawi. Together We Move.</p>
+        <div class="social-row"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="Instagram">ig</a></div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul><li><a href="about.html">About Us</a></li><li><a href="blog.html">Blog / News</a></li><li><a href="events.html">Events</a></li><li><a href="gallery.html">Gallery</a></li></ul>
+      </div>
+      <div>
+        <h4>Get Involved</h4>
+        <ul><li><a href="volunteer.html">Volunteer</a></li><li><a href="donate.html">Donate</a></li><li><a href="contact.html">Contact Us</a></li><li><a href="admin.html">Admin Panel</a></li></ul>
+      </div>
+      <div>
+        <h4>Stay Updated</h4>
+        <p class="muted" style="color:rgba(255,255,255,.7); font-size:.88rem;">Get news on our programs and events.</p>
+        <form class="newsletter-inline" id="newsletter-form">
+          <input type="email" placeholder="Your email" required aria-label="Email for newsletter">
+          <button class="btn btn-primary btn-sm" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year></span> New Community Organization. All rights reserved.</span>
+      <span>Patsankhondo, P.O. Box 16, Mitundu – Lilongwe, Malawi</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
