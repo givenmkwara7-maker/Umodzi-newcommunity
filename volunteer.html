@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Volunteer | New Community Organization</title>
+<meta name="description" content="Volunteer with New Community Organization in women empowerment, youth empowerment, agriculture, and community development programs.">
+<link rel="icon" href="images/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="nav-brand">
+      <img src="images/logo-mark.png" alt="New Community Organization logo">
+      <span class="brand-text"><strong>New Community Org.</strong><span>Together We Move</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="blog.html">Blog / News</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="volunteer.html">Volunteer</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="donate.html" class="btn btn-primary">Donate</a>
+      <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+
+<section class="page-hero">
+  <div class="container">
+    <p class="breadcrumb"><a href="index.html">Home</a> / Volunteer</p>
+    <h1>Give your time, move a community</h1>
+    <p>From training sessions to farming demonstrations, there's a role for your skills and your time.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head center">
+      <p class="eyebrow">Ways to Help</p>
+      <h2>Volunteer roles</h2>
+    </div>
+    <div class="grid grid-3">
+      <div class="card role-card">
+        <div class="icon-badge">&#127811;</div>
+        <h3>Training Facilitator</h3>
+        <p>Support women's entrepreneurship, financial literacy, or leadership training sessions.</p>
+      </div>
+      <div class="card role-card">
+        <div class="icon-badge">&#127806;</div>
+        <h3>Agriculture Volunteer</h3>
+        <p>Assist with the demonstration plot, farmer field days, and conservation farming outreach.</p>
+      </div>
+      <div class="card role-card">
+        <div class="icon-badge">&#128172;</div>
+        <h3>Youth Mentor</h3>
+        <p>Guide young people through our leadership and mentorship programs.</p>
+      </div>
+      <div class="card role-card">
+        <div class="icon-badge">&#128221;</div>
+        <h3>Communications &amp; Media</h3>
+        <p>Help capture photos, stories, and updates from our activities.</p>
+      </div>
+      <div class="card role-card">
+        <div class="icon-badge">&#129309;</div>
+        <h3>Community Outreach</h3>
+        <p>Support event logistics, registration, and community mobilization.</p>
+      </div>
+      <div class="card role-card">
+        <div class="icon-badge">&#128179;</div>
+        <h3>Partnerships &amp; Fundraising</h3>
+        <p>Help connect us with donors, partners, and in-kind support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--paper-dim)">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <p class="eyebrow">Sign Up</p>
+        <h2>Volunteer application</h2>
+        <p class="muted">Tell us a little about yourself and where you'd like to help. Our team will reach out with next steps.</p>
+      </div>
+      <div class="form-card">
+        <form id="volunteer-form">
+          <div class="form-msg" id="volunteer-msg"></div>
+          <div class="form-row">
+            <div class="field">
+              <label for="v-name">Full name</label>
+              <input type="text" id="v-name" name="name" required>
+            </div>
+            <div class="field">
+              <label for="v-email">Email address</label>
+              <input type="email" id="v-email" name="email" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="v-phone">Phone number</label>
+              <input type="tel" id="v-phone" name="phone">
+            </div>
+            <div class="field">
+              <label for="v-area">Area of interest</label>
+              <select id="v-area" name="area" required>
+                <option value="">Select an area</option>
+                <option>Training Facilitator</option>
+                <option>Agriculture Volunteer</option>
+                <option>Youth Mentor</option>
+                <option>Communications & Media</option>
+                <option>Community Outreach</option>
+                <option>Partnerships & Fundraising</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="v-availability">Availability</label>
+            <select id="v-availability" name="availability">
+              <option>Weekdays</option>
+              <option>Weekends</option>
+              <option>Flexible</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="v-message">Tell us about yourself <span class="hint">(optional)</span></label>
+            <textarea id="v-message" name="message" rows="4" placeholder="Skills, experience, or anything else we should know"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Submit Application</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><img src="images/logo-mark.png" alt="New Community Organization"><strong>New Community Organization</strong></div>
+        <p class="muted" style="color:rgba(255,255,255,.7)">Empowering women, youth, and farming communities in Lilongwe District, Malawi. Together We Move.</p>
+        <div class="social-row"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="Instagram">ig</a></div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <ul><li><a href="about.html">About Us</a></li><li><a href="blog.html">Blog / News</a></li><li><a href="events.html">Events</a></li><li><a href="gallery.html">Gallery</a></li></ul>
+      </div>
+      <div>
+        <h4>Get Involved</h4>
+        <ul><li><a href="volunteer.html">Volunteer</a></li><li><a href="donate.html">Donate</a></li><li><a href="contact.html">Contact Us</a></li><li><a href="admin.html">Admin Panel</a></li></ul>
+      </div>
+      <div>
+        <h4>Stay Updated</h4>
+        <p class="muted" style="color:rgba(255,255,255,.7); font-size:.88rem;">Get news on our programs and events.</p>
+        <form class="newsletter-inline" id="newsletter-form">
+          <input type="email" placeholder="Your email" required aria-label="Email for newsletter">
+          <button class="btn btn-primary btn-sm" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year></span> New Community Organization. All rights reserved.</span>
+      <span>Patsankhondo, P.O. Box 16, Mitundu – Lilongwe, Malawi</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
