@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel | New Community Organization</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="images/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="index.html" class="nav-brand">
+      <img src="images/logo-mark.png" alt="New Community Organization logo">
+      <span class="brand-text"><strong>New Community Org.</strong><span>Admin Panel</span></span>
+    </a>
+    <div class="nav-actions">
+      <a href="index.html" class="btn btn-secondary btn-sm">&larr; Back to Website</a>
+    </div>
+  </nav>
+</header>
+
+<div class="container" style="padding-top:20px;">
+  <p class="badge-note">This panel edits content stored in this browser's local storage, so it's meant for the organization's own device. Anything you add or delete here appears immediately on the public pages when viewed in the same browser. Keep this page private — don't link to it from the public menu — and see the note at the top of <code>script.js</code> for how to connect a real database when you're ready to go live.</p>
+</div>
+
+<div class="admin-shell" id="admin-shell">
+  <aside class="admin-side">
+    <button class="active" data-tab="achievements">Achievements &amp; Progress</button>
+    <button data-tab="posts">Blog / News</button>
+    <button data-tab="events">Events</button>
+    <button data-tab="gallery">Gallery Uploads</button>
+    <button data-tab="donors">Donor Wall</button>
+    <button data-tab="volunteers">Volunteer Signups</button>
+    <button data-tab="messages">Messages</button>
+  </aside>
+
+  <div class="admin-panel">
+
+    <!-- ACHIEVEMENTS -->
+    <section class="admin-tabpage active" id="tab-achievements">
+      <h2>Achievements &amp; Progress</h2>
+      <p>Log milestones as your programs grow — these show on the About page and homepage.</p>
+      <div class="two-col">
+        <form id="form-achievement" class="form-card">
+          <div class="field"><label for="a-title">Milestone title</label><input type="text" id="a-title" name="title" required placeholder="e.g. 30 farmers trained in conservation farming"></div>
+          <div class="field"><label for="a-date">Date</label><input type="date" id="a-date" name="date" required></div>
+          <div class="field"><label for="a-note">Details</label><textarea id="a-note" name="note" rows="3" placeholder="Short description of this milestone"></textarea></div>
+          <button type="submit" class="btn btn-primary btn-block">Add Milestone</button>
+        </form>
+        <table class="data-table" id="table-achievements">
+          <thead><tr><th>Date</th><th>Milestone</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- BLOG POSTS -->
+    <section class="admin-tabpage" id="tab-posts">
+      <h2>Blog / News Posts</h2>
+      <p>Publish updates from your programs. Photos are optional.</p>
+      <div class="two-col">
+        <form id="form-post" class="form-card">
+          <div class="field"><label for="p-title">Title</label><input type="text" id="p-title" name="title" required></div>
+          <div class="form-row">
+            <div class="field"><label for="p-tag">Category</label><input type="text" id="p-tag" name="tag" placeholder="e.g. Youth Empowerment"></div>
+            <div class="field"><label for="p-date">Date</label><input type="date" id="p-date" name="date" required></div>
+          </div>
+          <div class="field"><label for="p-excerpt">Short summary</label><input type="text" id="p-excerpt" name="excerpt" placeholder="One sentence for preview cards"></div>
+          <div class="field"><label for="p-body">Full story</label><textarea id="p-body" name="body" rows="4" required></textarea></div>
+          <div class="field"><label for="p-image">Photo <span class="hint">(optional)</span></label><input type="file" id="p-image" name="image" accept="image/*"></div>
+          <button type="submit" class="btn btn-primary btn-block">Publish Post</button>
+        </form>
+        <table class="data-table" id="table-posts">
+          <thead><tr><th>Date</th><th>Title</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- EVENTS -->
+    <section class="admin-tabpage" id="tab-events">
+      <h2>Events</h2>
+      <p>Add upcoming trainings, demonstrations, and outreach activities — they'll appear on the events calendar.</p>
+      <div class="two-col">
+        <form id="form-event" class="form-card">
+          <div class="field"><label for="ev-title">Event title</label><input type="text" id="ev-title" name="title" required></div>
+          <div class="form-row">
+            <div class="field"><label for="ev-date">Date</label><input type="date" id="ev-date" name="date" required></div>
+            <div class="field"><label for="ev-time">Time</label><input type="time" id="ev-time" name="time"></div>
+          </div>
+          <div class="field"><label for="ev-location">Location</label><input type="text" id="ev-location" name="location" required></div>
+          <div class="field"><label for="ev-category">Category</label>
+            <select id="ev-category" name="category">
+              <option>Training</option><option>Agriculture</option><option>Youth</option>
+              <option>Environment</option><option>Community</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Add Event</button>
+        </form>
+        <table class="data-table" id="table-events">
+          <thead><tr><th>When</th><th>Event</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="admin-tabpage" id="tab-gallery">
+      <h2>Gallery Uploads</h2>
+      <p>Upload photos from activities to showcase on the Project Gallery page.</p>
+      <form id="form-gallery" class="form-card" style="max-width:520px; margin-bottom:32px;">
+        <div class="form-row">
+          <div class="field"><label for="g-title">Caption</label><input type="text" id="g-title" name="title" required placeholder="e.g. Savings group meeting"></div>
+          <div class="field"><label for="g-category">Category</label>
+            <select id="g-category" name="category">
+              <option>Women</option><option>Youth</option><option>Agriculture</option>
+              <option>Community</option><option>Environment</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="g-image">Photo</label><input type="file" id="g-image" name="image" accept="image/*" required></div>
+        <button type="submit" class="btn btn-primary btn-block">Upload Photo</button>
+      </form>
+      <div class="grid grid-4" id="admin-gallery-grid"></div>
+    </section>
+
+    <!-- DONORS -->
+    <section class="admin-tabpage" id="tab-donors">
+      <h2>Donor Wall</h2>
+      <p>Add a thank-you entry for supporters who agree to be listed publicly.</p>
+      <div class="two-col">
+        <form id="form-donor" class="form-card">
+          <div class="field"><label for="d-name">Name</label><input type="text" id="d-name" name="name" required></div>
+          <div class="field"><label for="d-note">Note</label><input type="text" id="d-note" name="note" placeholder="What they supported"></div>
+          <button type="submit" class="btn btn-primary btn-block">Add to Donor Wall</button>
+        </form>
+        <table class="data-table" id="table-donors">
+          <thead><tr><th>Name</th><th>Note</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- VOLUNTEERS -->
+    <section class="admin-tabpage" id="tab-volunteers">
+      <h2>Volunteer Signups</h2>
+      <p>Applications submitted through the public Volunteer page.</p>
+      <table class="data-table" id="table-volunteers">
+        <thead><tr><th>Date</th><th>Applicant</th><th>Area</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- MESSAGES -->
+    <section class="admin-tabpage" id="tab-messages">
+      <h2>Messages &amp; Donation Intents</h2>
+      <p>Submissions from the Contact and Donate pages.</p>
+      <table class="data-table" id="table-messages">
+        <thead><tr><th>Date</th><th>From</th><th>Details</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
