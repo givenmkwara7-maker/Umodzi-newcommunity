@@ -10,6 +10,7 @@
    supabase link --project-ref ftsqsqhuqafjhwhtgbna
    supabase secrets set RESEND_API_KEY=re_your_key NOTIFICATION_FROM="New Community <notifications@your-domain.com>"
    supabase functions deploy send-notification --no-verify-jwt
+   supabase functions deploy send-reply
    ```
 
 The browser submits forms even before the notification function is deployed; the forms are stored securely and appear in the Admin Panel. Email notifications begin after step 4.
