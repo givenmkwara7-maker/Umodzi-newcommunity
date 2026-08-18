@@ -1,203 +1,25 @@
-/* ==========================================================================
-   admin.js — powers admin.html only.
-   Loaded after script.js, so it reuses loadData(), saveData(), uid(),
-   formatDate() and escapeHTML() from there.
-   ========================================================================== */
-
+/* Secure administrator panel backed by Supabase. */
 let ADMIN_DATA = null;
 
-function fileToDataURL(file){
-  return new Promise((resolve, reject) => {
-    if(!file){ resolve(""); return; }
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 function initAdminTabs(){
-  const buttons = document.querySelectorAll(".admin-side button");
-  const pages = document.querySelectorAll(".admin-tabpage");
-  buttons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      buttons.forEach(b => b.classList.remove("active"));
-      pages.forEach(p => p.classList.remove("active"));
-      btn.classList.add("active");
-      document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
-    });
-  });
+  const buttons = document.querySelectorAll(".admin-side button"), pages = document.querySelectorAll(".admin-tabpage");
+  buttons.forEach(btn => btn.addEventListener("click", () => { buttons.forEach(b => b.classList.remove("active")); pages.forEach(p => p.classList.remove("active")); btn.classList.add("active"); document.getElementById("tab-" + btn.dataset.tab).classList.add("active"); }));
 }
-
-/* ---------- Achievements / Progress ---------- */
-function renderAdminAchievements(){
-  const tbody = document.querySelector("#table-achievements tbody");
-  tbody.innerHTML = ADMIN_DATA.achievements.map(a => `
-    <tr>
-      <td>${formatDate(a.date)}</td>
-      <td><strong>${escapeHTML(a.title)}</strong><br><span class="muted">${escapeHTML(a.note||"")}</span></td>
-      <td><button class="del-btn" data-id="${a.id}" data-type="achievements">Delete</button></td>
-    </tr>`).join("") || `<tr><td colspan="3" class="muted">No milestones yet.</td></tr>`;
-}
-
-/* ---------- Blog posts ---------- */
-function renderAdminPosts(){
-  const tbody = document.querySelector("#table-posts tbody");
-  tbody.innerHTML = ADMIN_DATA.posts.map(p => `
-    <tr>
-      <td>${formatDate(p.date)}</td>
-      <td><strong>${escapeHTML(p.title)}</strong><br><span class="muted">${escapeHTML(p.tag||"")}</span></td>
-      <td><button class="del-btn" data-id="${p.id}" data-type="posts">Delete</button></td>
-    </tr>`).join("") || `<tr><td colspan="3" class="muted">No posts yet.</td></tr>`;
-}
-
-/* ---------- Events ---------- */
-function renderAdminEvents(){
-  const tbody = document.querySelector("#table-events tbody");
-  tbody.innerHTML = ADMIN_DATA.events.map(e => `
-    <tr>
-      <td>${formatDate(e.date)}${e.time ? " · "+e.time : ""}</td>
-      <td><strong>${escapeHTML(e.title)}</strong><br><span class="muted">${escapeHTML(e.location||"")}</span></td>
-      <td><button class="del-btn" data-id="${e.id}" data-type="events">Delete</button></td>
-    </tr>`).join("") || `<tr><td colspan="3" class="muted">No events yet.</td></tr>`;
-}
-
-/* ---------- Gallery ---------- */
-function renderAdminGallery(){
-  const wrap = document.getElementById("admin-gallery-grid");
-  wrap.innerHTML = ADMIN_DATA.gallery.map(g => `
-    <div class="card" style="padding:10px;">
-      <div class="post-media" style="margin-bottom:10px; border-radius:8px;">
-        ${g.image ? `<img src="${g.image}" alt="${escapeHTML(g.title)}" style="width:100%;height:100%;object-fit:cover;">` : svgPlaceholder("gallery")}
-      </div>
-      <p style="margin:0 0 4px; font-weight:700; font-size:.88rem;">${escapeHTML(g.title)}</p>
-      <p class="muted" style="margin:0 0 10px; font-size:.8rem;">${escapeHTML(g.category)}</p>
-      <button class="del-btn" data-id="${g.id}" data-type="gallery">Delete</button>
-    </div>`).join("") || `<p class="muted">No photos yet.</p>`;
-}
-
-/* ---------- Donors ---------- */
-function renderAdminDonors(){
-  const tbody = document.querySelector("#table-donors tbody");
-  tbody.innerHTML = ADMIN_DATA.donors.map(d => `
-    <tr>
-      <td><strong>${escapeHTML(d.name)}</strong></td>
-      <td>${escapeHTML(d.note||"")}</td>
-      <td><button class="del-btn" data-id="${d.id}" data-type="donors">Delete</button></td>
-    </tr>`).join("") || `<tr><td colspan="3" class="muted">No donors listed yet.</td></tr>`;
-}
-
-/* ---------- Volunteers (read-only, from public form) ---------- */
-function renderAdminVolunteers(){
-  const tbody = document.querySelector("#table-volunteers tbody");
-  tbody.innerHTML = ADMIN_DATA.volunteers.map(v => `
-    <tr>
-      <td>${new Date(v.date).toLocaleDateString("en-GB")}</td>
-      <td><strong>${escapeHTML(v.name)}</strong><br><span class="muted">${escapeHTML(v.email)}</span></td>
-      <td>${escapeHTML(v.area||"")}</td>
-      <td><button class="del-btn" data-id="${v.id}" data-type="volunteers">Delete</button></td>
-    </tr>`).join("") || `<tr><td colspan="4" class="muted">No volunteer applications yet.</td></tr>`;
-}
-
-/* ---------- Messages (read-only, from public form) ---------- */
-function renderAdminMessages(){
-  const tbody = document.querySelector("#table-messages tbody");
-  tbody.innerHTML = ADMIN_DATA.messages.map(m => `
-    <tr>
-      <td>${new Date(m.date).toLocaleDateString("en-GB")}</td>
-      <td><strong>${escapeHTML(m.name)}</strong><br><span class="muted">${escapeHTML(m.email)}</span></td>
-      <td>${escapeHTML(m.type === "donation-intent" ? ("Donation intent — MWK "+escapeHTML(m.amount)+" ("+escapeHTML(m.method)+")") : (m.subject||"") + (m.message ? ": "+escapeHTML(m.message) : ""))}</td>
-      <td><button class="del-btn" data-id="${m.id}" data-type="messages">Delete</button></td>
-    </tr>`).join("") || `<tr><td colspan="4" class="muted">No messages yet.</td></tr>`;
-}
-
+function renderTable(selector, rows, empty, rowHTML){ document.querySelector(selector).innerHTML = rows.map(rowHTML).join("") || empty; }
 function renderAllAdmin(){
-  renderAdminAchievements();
-  renderAdminPosts();
-  renderAdminEvents();
-  renderAdminGallery();
-  renderAdminDonors();
-  renderAdminVolunteers();
-  renderAdminMessages();
+  renderTable("#table-achievements tbody", ADMIN_DATA.achievements, `<tr><td colspan="3" class="muted">No milestones yet.</td></tr>`, a => `<tr><td>${formatDate(a.date)}</td><td><strong>${escapeHTML(a.title)}</strong><br><span class="muted">${escapeHTML(a.note||"")}</span></td><td><button class="del-btn" data-id="${a.id}" data-type="achievements">Delete</button></td></tr>`);
+  renderTable("#table-posts tbody", ADMIN_DATA.posts, `<tr><td colspan="3" class="muted">No posts yet.</td></tr>`, p => `<tr><td>${formatDate(p.date)}</td><td><strong>${escapeHTML(p.title)}</strong><br><span class="muted">${escapeHTML(p.tag||"")}</span></td><td><button class="del-btn" data-id="${p.id}" data-type="posts">Delete</button></td></tr>`);
+  renderTable("#table-events tbody", ADMIN_DATA.events, `<tr><td colspan="3" class="muted">No events yet.</td></tr>`, e => `<tr><td>${formatDate(e.date)}${e.time ? " · "+e.time : ""}</td><td><strong>${escapeHTML(e.title)}</strong><br><span class="muted">${escapeHTML(e.location||"")}</span></td><td><button class="del-btn" data-id="${e.id}" data-type="events">Delete</button></td></tr>`);
+  document.getElementById("admin-gallery-grid").innerHTML = ADMIN_DATA.gallery.map(g => `<div class="card" style="padding:10px;"><div class="post-media" style="margin-bottom:10px; border-radius:8px;">${g.image ? `<img src="${g.image}" alt="${escapeHTML(g.title)}" style="width:100%;height:100%;object-fit:cover;">` : svgPlaceholder("gallery")}</div><p style="margin:0 0 4px; font-weight:700; font-size:.88rem;">${escapeHTML(g.title)}</p><p class="muted" style="margin:0 0 10px; font-size:.8rem;">${escapeHTML(g.category)}</p><button class="del-btn" data-id="${g.id}" data-type="gallery">Delete</button></div>`).join("") || `<p class="muted">No photos yet.</p>`;
+  renderTable("#table-donors tbody", ADMIN_DATA.donors, `<tr><td colspan="3" class="muted">No donors listed yet.</td></tr>`, d => `<tr><td><strong>${escapeHTML(d.name)}</strong></td><td>${escapeHTML(d.note||"")}</td><td><button class="del-btn" data-id="${d.id}" data-type="donors">Delete</button></td></tr>`);
+  renderTable("#table-volunteers tbody", ADMIN_DATA.volunteers, `<tr><td colspan="4" class="muted">No volunteer applications yet.</td></tr>`, v => `<tr><td>${new Date(v.date).toLocaleDateString("en-GB")}</td><td><strong>${escapeHTML(v.name)}</strong><br><span class="muted">${escapeHTML(v.email)}</span></td><td>${escapeHTML(v.area||"")}</td><td><button class="del-btn" data-id="${v.id}" data-type="submissions">Delete</button></td></tr>`);
+  renderTable("#table-messages tbody", ADMIN_DATA.messages, `<tr><td colspan="4" class="muted">No messages yet.</td></tr>`, m => `<tr><td>${new Date(m.date).toLocaleDateString("en-GB")}</td><td><strong>${escapeHTML(m.name)}</strong><br><span class="muted">${escapeHTML(m.email)}</span></td><td>${escapeHTML(m.kind === "donation-intent" ? `Donation intent — MWK ${m.amount} (${m.method})` : (m.subject||"") + (m.message ? `: ${m.message}` : ""))}</td><td><button class="del-btn" data-id="${m.id}" data-type="submissions">Delete</button></td></tr>`);
 }
-
-function initDeleteHandlers(){
-  document.getElementById("admin-shell").addEventListener("click", (e) => {
-    const btn = e.target.closest(".del-btn");
-    if(!btn) return;
-    const type = btn.dataset.type;
-    const id = btn.dataset.id;
-    if(!confirm("Delete this item? This cannot be undone.")) return;
-    ADMIN_DATA[type] = ADMIN_DATA[type].filter(item => item.id !== id);
-    saveData(ADMIN_DATA);
-    renderAllAdmin();
-  });
-}
-
-function initAdminForms(){
-  document.getElementById("form-achievement").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    ADMIN_DATA.achievements.push({
-      id: uid("a"), title: fd.get("title"), date: fd.get("date"), note: fd.get("note")
-    });
-    saveData(ADMIN_DATA);
-    e.target.reset();
-    renderAdminAchievements();
-  });
-
-  document.getElementById("form-post").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const image = await fileToDataURL(fd.get("image"));
-    ADMIN_DATA.posts.push({
-      id: uid("p"), title: fd.get("title"), tag: fd.get("tag"), date: fd.get("date"),
-      excerpt: fd.get("excerpt"), body: fd.get("body"), image
-    });
-    saveData(ADMIN_DATA);
-    e.target.reset();
-    renderAdminPosts();
-  });
-
-  document.getElementById("form-event").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    ADMIN_DATA.events.push({
-      id: uid("e"), title: fd.get("title"), date: fd.get("date"), time: fd.get("time"),
-      location: fd.get("location"), category: fd.get("category")
-    });
-    saveData(ADMIN_DATA);
-    e.target.reset();
-    renderAdminEvents();
-  });
-
-  document.getElementById("form-gallery").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const image = await fileToDataURL(fd.get("image"));
-    if(!image){ alert("Please choose a photo to upload."); return; }
-    ADMIN_DATA.gallery.push({
-      id: uid("g"), title: fd.get("title"), category: fd.get("category"), image
-    });
-    saveData(ADMIN_DATA);
-    e.target.reset();
-    renderAdminGallery();
-  });
-
-  document.getElementById("form-donor").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    ADMIN_DATA.donors.push({ id: uid("d"), name: fd.get("name"), note: fd.get("note") });
-    saveData(ADMIN_DATA);
-    e.target.reset();
-    renderAdminDonors();
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  ADMIN_DATA = loadData();
-  initAdminTabs();
-  initDeleteHandlers();
-  initAdminForms();
-  renderAllAdmin();
-});
+async function loadAdminData(){ const content = await loadData(); const {data: submissions,error} = await ncoSupabase.from("form_submissions").select("*").order("created_at", {ascending:false}); if(error) throw error; return {...content, volunteers:submissions.filter(s=>s.kind==="volunteer").map(s=>({...s,date:s.created_at})), messages:submissions.filter(s=>s.kind!=="volunteer").map(s=>({...s,date:s.created_at}))}; }
+async function uploadImage(file){ if(!file) return ""; const name=`${Date.now()}-${file.name.toLowerCase().replace(/[^a-z0-9.]+/g,"-")}`; const {error}=await ncoSupabase.storage.from("site-images").upload(name,file); if(error) throw error; return ncoSupabase.storage.from("site-images").getPublicUrl(name).data.publicUrl; }
+async function persistContent(){ await saveData(ADMIN_DATA); renderAllAdmin(); }
+function initDeleteHandlers(){ document.getElementById("admin-shell").addEventListener("click", async e => { const btn=e.target.closest(".del-btn"); if(!btn||!confirm("Delete this item? This cannot be undone.")) return; try { if(btn.dataset.type==="submissions"){ const {error}=await ncoSupabase.from("form_submissions").delete().eq("id",btn.dataset.id); if(error) throw error; ADMIN_DATA.volunteers=ADMIN_DATA.volunteers.filter(x=>x.id!==btn.dataset.id); ADMIN_DATA.messages=ADMIN_DATA.messages.filter(x=>x.id!==btn.dataset.id); renderAllAdmin(); }else{ ADMIN_DATA[btn.dataset.type]=ADMIN_DATA[btn.dataset.type].filter(x=>x.id!==btn.dataset.id); await persistContent(); } }catch(error){ alert(`Could not delete this item: ${error.message}`); } }); }
+function initAdminForms(){ const add=(id,type,getItem)=>document.getElementById(id).addEventListener("submit",async e=>{e.preventDefault();try{ADMIN_DATA[type].push(await getItem(new FormData(e.target)));await persistContent();e.target.reset();}catch(error){alert(`Could not save: ${error.message}`);}}); add("form-achievement","achievements",fd=>({id:uid("a"),title:fd.get("title"),date:fd.get("date"),note:fd.get("note")})); add("form-post","posts",async fd=>({id:uid("p"),title:fd.get("title"),tag:fd.get("tag"),date:fd.get("date"),excerpt:fd.get("excerpt"),body:fd.get("body"),image:await uploadImage(fd.get("image"))})); add("form-event","events",fd=>({id:uid("e"),title:fd.get("title"),date:fd.get("date"),time:fd.get("time"),location:fd.get("location"),category:fd.get("category")})); add("form-gallery","gallery",async fd=>{const image=await uploadImage(fd.get("image"));if(!image)throw new Error("Please choose a photo.");return{id:uid("g"),title:fd.get("title"),category:fd.get("category"),image};}); add("form-donor","donors",fd=>({id:uid("d"),name:fd.get("name"),note:fd.get("note")})); }
+function initLogin(){ document.getElementById("login-form").addEventListener("submit",async e=>{e.preventDefault();const msg=document.getElementById("login-msg"),email=document.getElementById("login-email").value,password=document.getElementById("login-password").value,{error}=await ncoSupabase.auth.signInWithPassword({email,password});if(error){msg.className="form-msg error";msg.textContent=error.message;return;}await showAdmin();}); document.getElementById("logout-btn").addEventListener("click",async()=>{await ncoSupabase.auth.signOut();location.reload();}); }
+async function showAdmin(){ try{ADMIN_DATA=await loadAdminData();document.getElementById("admin-login").hidden=true;document.getElementById("admin-app").hidden=false;initAdminTabs();initDeleteHandlers();initAdminForms();renderAllAdmin();}catch(error){document.getElementById("login-msg").textContent="This account is not an administrator.";await ncoSupabase.auth.signOut();} }
+document.addEventListener("DOMContentLoaded",async()=>{initLogin();const {data:{session}}=await ncoSupabase.auth.getSession();if(session)await showAdmin();});

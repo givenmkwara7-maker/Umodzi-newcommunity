@@ -1,25 +1,13 @@
 /* ==========================================================================
    NEW COMMUNITY ORGANIZATION — script.js
-   One shared file that powers every page: navigation, the local content
+   One shared file that powers every page: navigation, the shared content
    store (blog, events, gallery, achievements, donors), forms, the
    events calendar, the gallery lightbox, and the admin upload panel.
 
    CONTENT STORE
    -------------
-   Everything editable (blog posts, events, gallery photos, achievements,
-   volunteer signups, messages, donor shout-outs) lives in the browser's
-   localStorage under the key "nco_data". That means:
-     - Content added through admin.html appears instantly on the public
-       pages, no server needed.
-     - It is per-browser/per-device — it will not sync between your
-       laptop and a visitor's phone. When you're ready to publish for
-       real, swap the loadData()/saveData() functions below for calls
-       to your backend or a service like Firebase/Supabase; every page
-       already reads from renderX() functions, so only this file
-       changes.
+   Content is stored in Supabase and is shared with every visitor.
    ========================================================================== */
-
-const NCO_KEY = "nco_data";
 
 function defaultData(){
   return {
@@ -80,25 +68,22 @@ function defaultData(){
   };
 }
 
-function loadData(){
-  try{
-    const raw = localStorage.getItem(NCO_KEY);
-    if(!raw){
-      const seed = defaultData();
-      localStorage.setItem(NCO_KEY, JSON.stringify(seed));
-      return seed;
-    }
-    return JSON.parse(raw);
-  }catch(e){
-    console.error("NCO store read failed, resetting.", e);
-    const seed = defaultData();
-    localStorage.setItem(NCO_KEY, JSON.stringify(seed));
+async function loadData(){
+  const seed = defaultData();
+  const { data, error } = await ncoSupabase.from("site_content").select("section, payload");
+  if(error){
+    console.warn("Could not load website content from Supabase.", error.message);
     return seed;
   }
+  data.forEach(row => { if(Array.isArray(row.payload)) seed[row.section] = row.payload; });
+  return seed;
 }
 
-function saveData(data){
-  localStorage.setItem(NCO_KEY, JSON.stringify(data));
+async function saveData(data){
+  const sections = ["posts", "events", "gallery", "achievements", "donors"];
+  const rows = sections.map(section => ({ section, payload: data[section], updated_at: new Date().toISOString() }));
+  const { error } = await ncoSupabase.from("site_content").upsert(rows);
+  if(error) throw error;
 }
 
 function uid(prefix){
@@ -387,44 +372,44 @@ function handleFormSubmit(formId, onValid){
   const form = document.getElementById(formId);
   if(!form) return;
   const msg = form.querySelector(".form-msg");
-  form.addEventListener("submit", (e)=>{
+  form.addEventListener("submit", async (e)=>{
     e.preventDefault();
     if(!form.checkValidity()){
       form.reportValidity();
       return;
     }
-    onValid(new FormData(form));
-    form.reset();
-    if(msg){
-      msg.className = "form-msg success";
-      msg.textContent = "Thank you — your submission has been received.";
+    try{
+      await onValid(new FormData(form));
+      form.reset();
+      if(msg){ msg.className = "form-msg success"; msg.textContent = "Thank you — your submission has been received."; }
+    }catch(error){
+      console.error(error);
+      if(msg){ msg.className = "form-msg error"; msg.textContent = "We could not send your submission. Please try again."; }
     }
   });
 }
 
-function initContactForm(data){
-  handleFormSubmit("contact-form", (fd)=>{
-    data.messages.push({
-      id: uid("m"), name: fd.get("name"), email: fd.get("email"),
-      subject: fd.get("subject"), message: fd.get("message"),
-      date: new Date().toISOString()
-    });
-    saveData(data);
-  });
+async function submitForm(payload){
+  const { error } = await ncoSupabase.from("form_submissions").insert(payload);
+  if(error) throw error;
+  ncoSupabase.functions.invoke("send-notification", { body: payload }).catch(error => console.warn("Notification email was not sent.", error));
 }
 
-function initVolunteerForm(data){
-  handleFormSubmit("volunteer-form", (fd)=>{
-    data.volunteers.push({
-      id: uid("v"), name: fd.get("name"), email: fd.get("email"), phone: fd.get("phone"),
-      area: fd.get("area"), availability: fd.get("availability"), message: fd.get("message"),
-      date: new Date().toISOString()
-    });
-    saveData(data);
-  });
+function initContactForm(){
+  handleFormSubmit("contact-form", (fd)=> submitForm({
+    kind:"contact", name: fd.get("name"), email: fd.get("email"),
+    subject: fd.get("subject"), message: fd.get("message")
+  }));
 }
 
-function initDonateForm(data){
+function initVolunteerForm(){
+  handleFormSubmit("volunteer-form", (fd)=> submitForm({
+    kind:"volunteer", name: fd.get("name"), email: fd.get("email"), phone: fd.get("phone"),
+    area: fd.get("area"), availability: fd.get("availability"), message: fd.get("message")
+  }));
+}
+
+function initDonateForm(){
   const amountBtns = document.querySelectorAll(".donate-amount");
   const customInput = document.getElementById("donate-custom");
   amountBtns.forEach(btn=>{
@@ -434,13 +419,10 @@ function initDonateForm(data){
       if(customInput) customInput.value = btn.dataset.amount;
     });
   });
-  handleFormSubmit("donate-form", (fd)=>{
-    data.messages.push({
-      id: uid("don"), type:"donation-intent", name: fd.get("name"), email: fd.get("email"),
-      amount: fd.get("amount"), method: fd.get("method"), date: new Date().toISOString()
-    });
-    saveData(data);
-  });
+  handleFormSubmit("donate-form", (fd)=> submitForm({
+    kind:"donation-intent", name: fd.get("name"), email: fd.get("email"),
+    amount: Number(fd.get("amount")), method: fd.get("method")
+  }));
 }
 
 function initNewsletterForm(){
@@ -459,9 +441,9 @@ function initNewsletterForm(){
 /* ==========================================================================
    PAGE BOOTSTRAP
    ========================================================================== */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   initNav();
-  const data = loadData();
+  const data = await loadData();
 
   renderHomeFeatured(data);
   renderHomeEvents(data);
@@ -474,9 +456,9 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAchievements(data);
   renderDonors(data);
 
-  initContactForm(data);
-  initVolunteerForm(data);
-  initDonateForm(data);
+  initContactForm();
+  initVolunteerForm();
+  initDonateForm();
   initNewsletterForm();
 
   document.querySelectorAll("[data-year]").forEach(el => el.textContent = new Date().getFullYear());

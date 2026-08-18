@@ -24,8 +24,21 @@
   </nav>
 </header>
 
-<div class="container" style="padding-top:20px;">
-  <p class="badge-note">This panel edits content stored in this browser's local storage, so it's meant for the organization's own device. Anything you add or delete here appears immediately on the public pages when viewed in the same browser. Keep this page private — don't link to it from the public menu — and see the note at the top of <code>script.js</code> for how to connect a real database when you're ready to go live.</p>
+<main class="container" id="admin-login" style="max-width:500px; padding:60px 0;">
+  <form id="login-form" class="form-card">
+    <div class="form-msg" id="login-msg"></div>
+    <h1>Administrator sign in</h1>
+    <p class="muted">Only approved organization administrators can manage website content.</p>
+    <div class="field"><label for="login-email">Email address</label><input id="login-email" type="email" required autocomplete="email"></div>
+    <div class="field"><label for="login-password">Password</label><input id="login-password" type="password" required autocomplete="current-password"></div>
+    <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+  </form>
+</main>
+
+<div id="admin-app" hidden>
+<div class="container" style="padding-top:20px; display:flex; justify-content:space-between; gap:16px; align-items:center;">
+  <p class="badge-note" style="margin:0;">You are signed in. Changes are securely saved and appear on the public website.</p>
+  <button type="button" class="btn btn-secondary btn-sm" id="logout-btn">Sign out</button>
 </div>
 
 <div class="admin-shell" id="admin-shell">
@@ -168,7 +181,10 @@
 
   </div>
 </div>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script src="script.js"></script>
 <script src="admin.js"></script>
 </body>
