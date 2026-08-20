@@ -68,7 +68,7 @@ function defaultData(){
   };
 }
 
-async function loadData(){
+async function loadData(includeDeleted = false){
   const seed = defaultData();
   const { data, error } = await ncoSupabase.from("site_content").select("section, payload");
   if(error){
@@ -76,6 +76,11 @@ async function loadData(){
     return seed;
   }
   data.forEach(row => { if(Array.isArray(row.payload)) seed[row.section] = row.payload; });
+  if(!includeDeleted){
+    ["posts", "events", "gallery", "achievements", "donors"].forEach(section => {
+      seed[section] = seed[section].filter(item => !item.deletedAt);
+    });
+  }
   return seed;
 }
 

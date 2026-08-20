@@ -50,6 +50,7 @@
     <button data-tab="donors">Donor Wall</button>
     <button data-tab="volunteers">Volunteer Signups</button>
     <button data-tab="messages">Messages</button>
+    <button data-tab="trash">Trash</button>
   </aside>
 
   <div class="admin-panel">
@@ -185,6 +186,15 @@
         <div class="field"><label for="reply-body">Your reply</label><textarea id="reply-body" rows="7" required></textarea></div>
         <div style="display:flex; gap:12px;"><button type="submit" class="btn btn-primary">Send reply</button><button type="button" class="btn btn-secondary" id="reply-cancel">Cancel</button></div>
       </form>
+    </section>
+
+    <section class="admin-tabpage" id="tab-trash">
+      <h2>Trash</h2>
+      <p>Deleted website content is kept here until you restore it. Items deleted before this feature was added cannot be recovered.</p>
+      <table class="data-table" id="table-trash">
+        <thead><tr><th>Type</th><th>Item</th><th>Deleted</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
     </section>
 
   </div>
