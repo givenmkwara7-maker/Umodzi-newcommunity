@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NEW COMMUNITY ORGANIZATION — "Together We Move"
+   UMODZI NEW COMMUNITY — "Together We Move"
    Design tokens derived from the brand mark: field-row green, sky blue,
    harvest orange and sunrise gold. Background is a warm paper white
    (not cream/terracotta) with a bold geometric display face, so the
@@ -254,7 +254,9 @@ section{ padding:88px 0; }
   background:var(--green-100); border-radius:var(--radius); aspect-ratio:4/5;
   display:flex; align-items:center; justify-content:center; color:var(--green-700);
   font-family:var(--font-display); font-weight:700; font-size:3.4rem; border:1px solid var(--line);
+  overflow:hidden;
 }
+.founder-photo img{ width:100%; height:100%; object-fit:cover; object-position:center; }
 @media (max-width:800px){ .founder{ grid-template-columns:1fr; } }
 
 /* --- Goals list --- */

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NEW COMMUNITY ORGANIZATION — script.js
+   UMODZI NEW COMMUNITY — script.js
    One shared file that powers every page: navigation, the shared content
    store (blog, events, gallery, achievements, donors), forms, the
    events calendar, the gallery lightbox, and the admin upload panel.
@@ -57,7 +57,7 @@ function defaultData(){
     achievements: [
       { id:"a1", title:"25 women completed entrepreneurship training", date:"2026-06-14", note:"First cohort graduated with individual business plans and savings-circle access." },
       { id:"a2", title:"Demonstration plot established", date:"2026-05-02", note:"A conservation-farming demonstration plot is now training smallholder farmers each season." },
-      { id:"a3", title:"Founding of New Community Organization", date:"2025-11-01", note:"Registered to focus on women, youth, agriculture, and community development in Lilongwe District." }
+      { id:"a3", title:"Founding of Umodzi New Community", date:"2025-11-01", note:"Registered to focus on women, youth, agriculture, and community development in Lilongwe District." }
     ],
     donors: [
       { id:"d1", name:"Community well-wisher", note:"Supported the entrepreneurship training materials." },

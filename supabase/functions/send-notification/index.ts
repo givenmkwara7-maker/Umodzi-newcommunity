@@ -22,7 +22,7 @@ Deno.serve(async (request) => {
         from: Deno.env.get("NOTIFICATION_FROM"), to: ["givenmkwara7@gmail.com"],
         reply_to: submission.email,
         subject: `New website ${String(submission.kind || "submission").replace(/-/g, " ")}`,
-        html: `<h2>New New Community Organization website submission</h2>${fields}`,
+        html: `<h2>New Umodzi New Community website submission</h2>${fields}`,
       }),
     });
     if (!response.ok) throw new Error(await response.text());

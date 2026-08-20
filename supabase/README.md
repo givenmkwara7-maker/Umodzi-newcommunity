@@ -8,7 +8,7 @@
    ```sh
    supabase login
    supabase link --project-ref ftsqsqhuqafjhwhtgbna
-   supabase secrets set RESEND_API_KEY=re_your_key NOTIFICATION_FROM="New Community <notifications@your-domain.com>"
+   supabase secrets set RESEND_API_KEY=re_your_key NOTIFICATION_FROM="Umodzi New Community <notifications@your-domain.com>"
    supabase functions deploy send-notification --no-verify-jwt
    supabase functions deploy send-reply
    ```
